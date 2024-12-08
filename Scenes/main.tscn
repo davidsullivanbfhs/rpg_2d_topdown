@@ -2152,6 +2152,7 @@ position = Vector2(252, 78)
 
 [node name="Items" type="TileMapLayer" parent="."]
 z_index = 1
+z_as_relative = false
 y_sort_enabled = true
 use_parent_material = true
 tile_map_data = PackedByteArray("AAAvAAoAAQAJAAEAAAAzAAIAAQAbAAEAAAAEAAMAAQAUAAIAAAAXAAEAAQAhAB0AAAD9/wYAAQAhAB0AAAANAP//AQAhAB0AAAAjAAQAAQAhAB0AAAApAP//AQAhAB0AAAA=")
@@ -2302,6 +2303,7 @@ alignment = 1
 
 [node name="LevelContainer" type="HBoxContainer" parent="UI/UImargins/Panel3/VBoxContainer"]
 layout_mode = 2
+alignment = 2
 
 [node name="Lvl_Label" type="Label" parent="UI/UImargins/Panel3/VBoxContainer/LevelContainer"]
 layout_mode = 2
@@ -2318,6 +2320,7 @@ vertical_alignment = 1
 
 [node name="XPContainer" type="HBoxContainer" parent="UI/UImargins/Panel3/VBoxContainer"]
 layout_mode = 2
+alignment = 2
 
 [node name="XP_Label" type="Label" parent="UI/UImargins/Panel3/VBoxContainer/XPContainer"]
 layout_mode = 2

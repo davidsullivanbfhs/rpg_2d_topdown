@@ -11,6 +11,10 @@ extends Node2D
 @onready var spawned_enemies = $SpawnedEnemies
 @onready var tilemap = get_tree().root.get_node("Main/Terrain")
 
+#### for david only ###
+@onready var tilemapItems = get_tree().root.get_node("Main/Items")
+@onready var tilemapWater = get_tree().root.get_node("Main/Water")
+
 #enemy vars
 @export var max_enemies = 20
 var enemy_count = 0
@@ -47,9 +51,19 @@ func spawn_enemy():
 #how to spawn from a specific location with a direction
 func is_valid_spawn_location(layer, position):
 	var cell_coords = Vector2(position.x, position.y)
-	#first check if it is an invalid tile
-	if tilemap.get_cell_source_id(Global.WATER_LAYER, cell_coords) != -1 ||tilemap.get_cell_source_id(Global.BUILDING_LAYER, cell_coords) != -1 || tilemap.get_cell_source_id(Global.FOLIAGE_LAYER, cell_coords) != -1:
-		return false
+	### i put this in to check if it is an old tilemap node or new tilemaplayer node, since they do things different  ###
+	if tilemap.is_a("TileMap"):
+		#first check if it is an invalid tile
+		if tilemap.get_cell_source_id(Global.WATER_LAYER, cell_coords) != -1 ||tilemap.get_cell_source_id(Global.BUILDING_LAYER, cell_coords) != -1 || tilemap.get_cell_source_id(Global.FOLIAGE_LAYER, cell_coords) != -1:
+			return false
+		#second check if valid tile
+		if tilemap.get_cell_source_id(Global.GRASS_LAYER, cell_coords) != -1:
+			return true
+	else:	
+	### for david only ###
+	### you dont need this unless you are using tilemaplayer nodes ###
+		if tilemapItems.get_cell_source_id(cell_coords) != -1 || tilemapWater.get_cell_source_id(cell_coords) != -1:
+			return false
 	#second check if valid tile
-	if tilemap.get_cell_source_id(Global.GRASS_LAYER, cell_coords) != -1:
-		return true
+		if tilemap.get_cell_source_id(cell_coords) != -1:
+			return true
