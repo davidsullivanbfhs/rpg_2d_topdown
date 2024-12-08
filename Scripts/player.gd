@@ -28,7 +28,7 @@ signal ammo_amount_updated
 
 @export var speed = 50.0
 @export var recoil = -5.0
-@export var stamina_decrease = 20
+@export var stamina_decrease = 1
 
 @onready var animation_sprite = $AnimatedSprite2D
 var new_direction: Vector2 = Vector2.ZERO
@@ -69,17 +69,20 @@ func _physics_process(delta: float) -> void:
 	if abs(direction.x) == 1 and abs(direction.y) == 1:
 		direction = direction.normalized()
 	
-	if Input.is_action_pressed("Sprint") && stamina >= 25:	
-		if stamina >= 25:
+	if Input.is_action_pressed("Sprint"):	
+		if stamina >= 0:
 			speed = 100
 			animation_sprite.speed_scale = 2
 			stamina = stamina - stamina_decrease ### make this a variable
 			stamina_updated.emit(stamina, max_stamina) # stamina, max_stamina
-			print(stamina)
 	elif Input.is_action_just_released("Sprint"):
 		speed = 50
 		animation_sprite.speed_scale = 1
 	
+	##make them slow down if they have used up their stamina, even if they have sprint button pressed
+	if stamina <= 0:
+		speed = 50
+		animation_sprite.speed_scale = 1
 	#var movement = direction * speed * delta
 	#print(is_attacking)
 	if is_attacking == false:
@@ -153,10 +156,21 @@ func _input(event):
 
 
 func _on_animated_sprite_2d_animation_finished() -> void:
+
 	#print("Finished animation")
 	is_attacking = false
 	#instantiate bullet
-	if animation_sprite.animation.begins_with("attack_"):
+	#if animation_sprite.animation.begins_with("attack_"):
+		#var bullet = Global.bullet_scene.instantiate()
+		#bullet.damage = bullet_damage
+		#bullet.direction = new_direction.normalized()
+		#bullet.position = position + new_direction.normalized() * 4
+		#get_tree().root.get_node("Main").add_child(bullet)
+
+
+func _on_animated_sprite_2d_frame_changed() -> void:
+	#instantiate bullet
+	if animation_sprite.animation.begins_with("attack_")&& animation_sprite.frame == 2:
 		var bullet = Global.bullet_scene.instantiate()
 		bullet.damage = bullet_damage
 		bullet.direction = new_direction.normalized()
