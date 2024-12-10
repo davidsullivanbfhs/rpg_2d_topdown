@@ -21,10 +21,18 @@ var max_stamina = 100
 var regen_stamina = 1
 var ammo_amount = 6
 
+### pickups health, stamina, ammo
+enum Pickups { AMMO, STAMINA, HEALTH }
+var health_pickup_amount = 0
+var stamina_pickup_amount = 0
+
 #custom signals
 signal health_updated
 signal stamina_updated
+
 signal ammo_amount_updated
+signal health_ammount_updated
+signal stamina_ammount_updated
 
 @export var speed = 50.0
 @export var recoil = -5.0
@@ -176,3 +184,9 @@ func _on_animated_sprite_2d_frame_changed() -> void:
 		bullet.direction = new_direction.normalized()
 		bullet.position = position + new_direction.normalized() * 4
 		get_tree().root.get_node("Main").add_child(bullet)
+
+
+func add_pickup(item):
+	if item == Pickups.AMMO:
+		ammo_amount = ammo_amount + 3
+		ammo_amount_updated.emit(ammo_amount)

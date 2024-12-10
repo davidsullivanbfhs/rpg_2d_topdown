@@ -9,11 +9,11 @@ extends Node2D
 
 #reference to our empty node2d container for spawned enemies
 @onready var spawned_enemies = $SpawnedEnemies
-@onready var tilemap = get_tree().root.get_node("Main/Terrain")
+@onready var tilemap = $"../Terrain"
 
 #### for david only ###
-@onready var tilemapItems = get_tree().root.get_node("Main/Items")
-@onready var tilemapWater = get_tree().root.get_node("Main/Water")
+@onready var tilemapItems = $"../Items"
+@onready var tilemapWater = $"../Water"
 
 #enemy vars
 @export var max_enemies = 20
@@ -35,8 +35,27 @@ func spawn_enemy():
 	var spawned = false
 	
 	while not spawned and attempts < max_attempts:
+		print("tring to spawn an enemy")
 		#random number for position in x and y
 		var random_position = Vector2(rng.randi() % tilemap.get_used_rect().size.x,  rng.randi() % tilemap.get_used_rect().size.y)
+		### this check is just for me because i am using tilemaplayers
+		if tilemap.is_a("TileMap"):
+			if is_valid_spawn_location(Global.GRASS_LAYER, random_position):
+				var enemy = Global.enemy_scene.instantiate()
+				enemy.position = tilemap.map_to_local(random_position) + Vector2(tilemap.tile_size.x, tilemap.tile_size.y)/2
+				spawned_enemies.add_child(enemy)
+				spawned = true
+			else:
+				attempts += 1
+		else:
+			if is_valid_spawn_location(Global.GRASS_LAYER, random_position):
+				var enemy = Global.enemy_scene.instantiate()
+				enemy.position = tilemap.map_to_local(random_position) + Vector2(tilemap.tile_size.x, tilemap.tile_size.y)/2
+				spawned_enemies.add_child(enemy)
+				spawned = true
+			else:
+				attempts += 1
+		### the original check and spawn code, is it a problem to pass the layer if it is a tilemaplayer
 		if is_valid_spawn_location(Global.GRASS_LAYER, random_position):
 			var enemy = Global.enemy_scene.instantiate()
 			enemy.position = tilemap.map_to_local(random_position) + Vector2(tilemap.tile_size.x, tilemap.tile_size.y)/2
@@ -45,7 +64,7 @@ func spawn_enemy():
 		else:
 			attempts += 1
 	if attempts >= max_attempts:
-		pass
+		print("Warning: Could not find a valid location")
 
 #add player position as a non valid spawn point
 #how to spawn from a specific location with a direction
@@ -67,3 +86,9 @@ func is_valid_spawn_location(layer, position):
 	#second check if valid tile
 		if tilemap.get_cell_source_id(cell_coords) != -1:
 			return true
+
+
+func _on_timer_timeout() -> void:
+	if enemy_count < max_enemies:
+		spawn_enemy()
+		enemy_count += 1
