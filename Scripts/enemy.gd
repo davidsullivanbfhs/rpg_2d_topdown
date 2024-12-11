@@ -1,5 +1,6 @@
 extends CharacterBody2D
 
+#INFO
 #figure out if its close to the player
 #if its far , chase player
 #if its really close, attack the player
@@ -13,7 +14,6 @@ var max_health = 100
 var regen_health = 1
 
 #bullet stuff
-#@onready var bullet_scene = preload("res://Scenes/bullet.tscn")
 var bullet_damage = 30
 var bullet_reload_time = 1000
 var bullet_fired_time = 0.5 #when did they fire
@@ -30,7 +30,8 @@ var animation
 @onready var timer_node = $Timer
 @onready var animation_player = $AnimationPlayer
 @onready var animation_sprite = $AnimatedSprite2D
-@onready var player = $"../Player"
+#BUG!!!! when enemy is spawned by spawner, we lose our connection with the player node !!!!
+@onready var player = get_tree().root.get_node("Main/Player")
 var is_attacking = false
 
 #signals
@@ -150,13 +151,13 @@ func hit(damage):
 		
 		#emit a signal 
 		death.emit()
-		#queue_free
+		
 
 
 
 func _on_animated_sprite_2d_animation_finished() -> void:
 	if animation_sprite.animation == "death_front":
-		get_tree().queue_delete(self)
+		queue_free()
 	is_attacking = false
 
 

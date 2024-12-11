@@ -33,5 +33,5 @@ func _on_player_health_updated(health, max_health) -> void:
 
 #### the functions need to receive the same arguments taht were sent by the emitter ##########
 func _on_player_stamina_updated(stamina, max_stamina) -> void:
-	print("changing the bar", stamina)
+	#print("changing the bar", stamina)
 	stamina_bar_value.value = 100 * stamina / max_stamina

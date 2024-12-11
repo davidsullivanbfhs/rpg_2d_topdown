@@ -33,8 +33,6 @@ func _process(delta):
 			sprite.set_texture(stamina_texture)
 
 
-
-
 func _on_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
 		#check what item it is

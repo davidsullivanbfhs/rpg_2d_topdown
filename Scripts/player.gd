@@ -167,13 +167,7 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 
 	#print("Finished animation")
 	is_attacking = false
-	#instantiate bullet
-	#if animation_sprite.animation.begins_with("attack_"):
-		#var bullet = Global.bullet_scene.instantiate()
-		#bullet.damage = bullet_damage
-		#bullet.direction = new_direction.normalized()
-		#bullet.position = position + new_direction.normalized() * 4
-		#get_tree().root.get_node("Main").add_child(bullet)
+	#moved all the bullet stuff to frame changed function so shooting would be snappier
 
 
 func _on_animated_sprite_2d_frame_changed() -> void:
@@ -190,3 +184,4 @@ func add_pickup(item):
 	if item == Pickups.AMMO:
 		ammo_amount = ammo_amount + 3
 		ammo_amount_updated.emit(ammo_amount)
+	### add other two

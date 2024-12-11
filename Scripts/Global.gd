@@ -12,4 +12,4 @@ extends Node
 #Tilemap layers
 const WATER_LAYER = 0
 const GRASS_LAYER = 1
-const BUILDING_LAYER = 3
+const BUILDING_LAYER = 2
