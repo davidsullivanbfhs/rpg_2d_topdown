@@ -37,5 +37,6 @@ func _on_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
 		#check what item it is
 		#update our ammo health stamina
+		body.add_pickup(item)
 		#remove it
 		queue_free()

@@ -36,13 +36,20 @@ func spawn_enemy():
 	var spawned = false
 	
 	while not spawned and attempts < max_attempts:
+		### a second way to specify where to spawn enemies using a tilemap layer as a spawn layer
+		## create an array of used cells on a layer 
+		var groundtiles = tilemap.get_used_cells(Global.SPAWN_LAYER)
+		## shuffle the array, 
+		groundtiles.shuffle()
+		## pick a position until max-enemy is reached
+		var random_position2 = groundtiles.pick_random()
 		#random number for position in x and y
 		var random_position = Vector2(rng.randi() % tilemap.get_used_rect().size.x,  rng.randi() % tilemap.get_used_rect().size.y)
 		### this check is just for me because i am using tilemaplayers
 
-		if is_valid_spawn_location(Global.GRASS_LAYER, random_position):
+		if is_valid_spawn_location(Global.GRASS_LAYER, random_position2):
 			var enemy = Global.enemy_scene.instantiate()
-			enemy.position = tilemap.map_to_local(random_position) + Vector2(tilemap.tile_set.tile_size.x, tilemap.tile_set.tile_size.y)/2
+			enemy.position = tilemap.map_to_local(random_position2) + Vector2(tilemap.tile_set.tile_size.x, tilemap.tile_set.tile_size.y)/2
 			spawned_enemies.add_child(enemy)
 			spawned = true
 		else:

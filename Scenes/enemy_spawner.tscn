@@ -3,11 +3,13 @@
 [ext_resource type="Script" path="res://Scripts/enemy_spawner.gd" id="1_o5fbg"]
 
 [node name="EnemySpawner" type="Node2D"]
+z_index = 1
 script = ExtResource("1_o5fbg")
 
 [node name="Timer" type="Timer" parent="."]
 autostart = true
 
 [node name="SpawnedEnemies" type="Node2D" parent="."]
+z_index = 1
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

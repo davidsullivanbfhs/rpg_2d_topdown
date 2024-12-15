@@ -13,3 +13,4 @@ extends Node
 const WATER_LAYER = 0
 const GRASS_LAYER = 1
 const BUILDING_LAYER = 2
+const SPAWN_LAYER = 3
