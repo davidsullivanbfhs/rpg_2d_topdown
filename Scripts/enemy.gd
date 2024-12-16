@@ -6,7 +6,8 @@ extends CharacterBody2D
 #if its really close, attack the player
 #if its really far, roam, change direction everynow and then
 
-########enenmy no random motion when not chasing
+######## fixed - enenmy no random motion when not chasing
+######## !!!! change the collision layer mask so enemies dont pile up !!!!
 
 #enemy variables
 var health = 100

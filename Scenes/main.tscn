@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bht4l25l2o47k"]
+[gd_scene load_steps=24 format=3 uid="uid://bht4l25l2o47k"]
 
 [ext_resource type="Texture2D" uid="uid://ckx6cfsnq6t2b" path="res://Assets/Atlas.png" id="1_7r1gl"]
 [ext_resource type="Script" path="res://Scenes/main.gd" id="1_nde20"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://bxihuu4njryk3" path="res://Assets/Icons/potion_01e.png" id="10_n5gkt"]
 [ext_resource type="PackedScene" uid="uid://dlf0xpb5xdsi1" path="res://Scenes/pickup.tscn" id="11_esub0"]
 [ext_resource type="PackedScene" uid="uid://86an58l5gfe0" path="res://Scenes/enemy_spawner.tscn" id="11_lub0n"]
+[ext_resource type="PackedScene" uid="uid://ge2wa6otcixm" path="res://Scenes/pickup_spawner.tscn" id="13_r4d0y"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_se7g4"]
 texture = ExtResource("1_7r1gl")
@@ -2737,3 +2738,7 @@ item = 2
 
 [node name="Enemy" parent="." instance=ExtResource("5_lp1k3")]
 position = Vector2(261, 87)
+
+[node name="PickupSpawner" parent="." instance=ExtResource("13_r4d0y")]
+position = Vector2(13, 3)
+max_items = 20
