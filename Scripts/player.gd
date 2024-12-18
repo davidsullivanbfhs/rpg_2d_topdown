@@ -41,9 +41,9 @@ signal stamina_amount_updated
 @onready var animation_sprite = $AnimatedSprite2D
 var new_direction: Vector2 = Vector2.ZERO
 var animation
-var is_attacking = false
+var is_attacking = false #controls if player can move
 
-#bullet stuff
+###  bullet stuff  ###
 #moved to global script
 #@onready var bullet_scene = preload("res://Scenes/bullet.tscn")
 var bullet_damage = 30
@@ -51,7 +51,10 @@ var bullet_reload_time = 1000
 var bullet_fired_time = 0.5 #when did they fire
 
 func _ready() -> void:
+	## need to update the ammo to 6 at the beginning
+	## perhaps this isnt showing because ui isnt ready to listen yet??
 	ammo_amount = 6
+	await get_tree().create_timer(1).timeout
 	ammo_amount_updated.emit(ammo_amount)
 
 func _process(delta: float) -> void:
@@ -194,7 +197,12 @@ func _on_animated_sprite_2d_frame_changed() -> void:
 		var bullet = Global.bullet_scene.instantiate()
 		bullet.damage = bullet_damage
 		bullet.direction = new_direction.normalized()
+		#if they shoot at the beginning, they have no direction yet, so give a direction
+		if bullet.direction == Vector2.ZERO:
+			bullet.direction = Vector2(1, 0)
 		bullet.position = position + new_direction.normalized() * 4
+		if bullet.direction == Vector2.ZERO:
+			bullet.position = position
 		get_tree().root.get_node("Main").add_child(bullet)
 
 # find type, add amount, emit signal

@@ -1,8 +1,7 @@
 extends Node2D
 
-#disable enemy timer in the enemy scene so it doesnt move until we want it to
-#think about increasing max enemies over time
-#randomize spawn position
+#BUG items only spawn once
+
 
 #get current spawn count
 #check tilemap  for spawnable locations
@@ -22,10 +21,8 @@ var rng = RandomNumberGenerator.new()
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# Spawn between 5 and 10 pickups at the beginning, dont need a timer
-	var spawn_pickup_amount = rng.randf_range(5, max_items)
+	var spawn_pickup_amount = rng.randf_range(10, max_items)
 	spawn_pickups(spawn_pickup_amount)  
-
-	pass
 	
 	
 func spawn_pickups(amount):
@@ -45,13 +42,14 @@ func spawn_pickups(amount):
 		var random_position = Vector2(rng.randi() % tilemap.get_used_rect().size.x,  rng.randi() % tilemap.get_used_rect().size.y)
 		### this check is just for me because i am using tilemaplayers
 
-		if is_valid_spawn_location(Global.GRASS_LAYER, random_position2):
+		if is_valid_spawn_location(Global.SPAWN_LAYER, random_position2):
 			var pickup = Global.pickup_scene.instantiate()
 			# pick a random item to spawn from the enum in the globals script
 			pickup.item = Global.Pickups.values()[randi() % 3]
 			pickup.position = tilemap.map_to_local(random_position2) + Vector2(tilemap.tile_set.tile_size.x, tilemap.tile_set.tile_size.y)/2
 			spawned_pickups.add_child(pickup)
 			spawned = true
+			print("spawned an item")
 		else:
 			attempts += 1
 

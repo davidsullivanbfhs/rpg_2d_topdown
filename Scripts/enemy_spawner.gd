@@ -76,4 +76,4 @@ func _on_timer_timeout() -> void:
 	if enemy_count < max_enemies:
 		spawn_enemy()
 		enemy_count += 1
-		print(enemy_count)
+		#print("enemy count: ", enemy_count)
