@@ -2741,4 +2741,3 @@ position = Vector2(261, 87)
 
 [node name="PickupSpawner" parent="." instance=ExtResource("13_r4d0y")]
 position = Vector2(13, 3)
-max_items = 20

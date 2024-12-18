@@ -24,7 +24,7 @@ var regen_stamina = 1
 enum Pickups { AMMO, STAMINA, HEALTH }
 var health_pickup_amount = 0
 var stamina_pickup_amount = 0
-var ammo_amount = 6
+var ammo_amount = 0
 
 #custom signals
 signal health_updated
@@ -49,6 +49,10 @@ var is_attacking = false
 var bullet_damage = 30
 var bullet_reload_time = 1000
 var bullet_fired_time = 0.5 #when did they fire
+
+func _ready() -> void:
+	ammo_amount = 6
+	ammo_amount_updated.emit(ammo_amount)
 
 func _process(delta: float) -> void:
 	#calculate health
@@ -160,6 +164,20 @@ func _input(event):
 			#update the ammo and send signal to ui
 			ammo_amount = ammo_amount - 1
 			ammo_amount_updated.emit(ammo_amount)
+#using health consumables
+	elif event.is_action_pressed("ConsumeHealthPotion"):
+		if health > 0 && health_pickup_amount > 0:
+			health_pickup_amount = health_pickup_amount - 1
+			health = min(health + 50, max_health)
+			health_updated.emit(health, max_health)
+			health_amount_updated.emit(health_pickup_amount) 
+	#using stamina consumables      
+	elif event.is_action_pressed("ConsumeStaminaPotion"):
+		if stamina > 0 && stamina_pickup_amount > 0:
+			stamina_pickup_amount = stamina_pickup_amount - 1
+			stamina = min(stamina + 50, max_stamina)
+			stamina_updated.emit(stamina, max_stamina)
+			stamina_amount_updated.emit(stamina_pickup_amount)
 		
 
 

@@ -41,6 +41,7 @@ signal death
 func _ready() -> void:
 	rng.randomize()
 	animation_sprite.modulate = Color(1, 1, 1, 1)
+	#print("Enemy SPwaned at: ", position)
 	
 
 func _process(delta: float) -> void:

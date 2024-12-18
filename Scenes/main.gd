@@ -3,9 +3,10 @@ extends Node2D
 #####################  TODO ################################
 ## think about where player var info should be stored
 ## should gui be its own scene and own the code that changes it?
-## fire bullets, 
-## spawn pickups and change inventory
-## spawn enemies
+## DONE: fire bullets, 
+## DONE: spawn pickups and change inventory
+## add keys for using health and stamina potions
+## DONE: spawn enemies
 ## npcs, dialog, quests
 ## hazards?
 ############################################################
@@ -23,6 +24,7 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	#connect to all the signals to pass the info on to the ui
 	player.health_updated.connect(_on_player_health_updated)
 	player.stamina_updated.connect(_on_player_stamina_updated)
 	player.ammo_amount_updated.connect(_on_player_ammo_amount_updated)
@@ -39,7 +41,7 @@ func _on_player_health_updated(health, max_health) -> void:
 	health_bar_value.value = 100 * health / max_health
 
 
-#### the functions need to receive the same arguments taht were sent by the emitter ##########
+#### the functions need to receive the same arguments that were sent by the emitter ##########
 func _on_player_stamina_updated(stamina, max_stamina) -> void:
 	#print("changing the bar", stamina)
 	stamina_bar_value.value = 100 * stamina / max_stamina

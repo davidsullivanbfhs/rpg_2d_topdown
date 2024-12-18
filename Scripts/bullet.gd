@@ -6,8 +6,8 @@ extends Area2D
 #if they hit the enemy deal damage
 #if it hits tile obstacle delete it.
 
-@onready var tilemap_water = get_tree().root.get_node("Main/Water")
-@onready var tilemap_object = get_tree().root.get_node("Main/Items")
+@onready var tilemap = get_tree().root.get_node("Main/TileMap")
+#@onready var tilemap_object = get_tree().root.get_node("Main/Items")
 var direction : Vector2
 var speed = 100
 #should damage amount be in bullet or enemy?
@@ -29,11 +29,11 @@ func _on_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
 		return
 	#if it collides with the tilemap, check if it is a layer
-	#if body.name == "Tilemap": 
-		#if tilemap.get_layer_name(0) == "Water": # <-name of your tilemap layer that has collisions
-			#return
-		#if tilemap.get_layer_name(1) = "Objects": # <-name of your tilemap layer that has collisions
-			#return
+	if body.name == "Tilemap": 
+		if tilemap.get_layer_name(0) == "Water": # <-name of your tilemap layer that has collisions
+			return
+		if tilemap.get_layer_name(1) == "Things": # <-name of your tilemap layer that has collisions
+			pass
 	if body.name == "Items": #the name of your tilemap
 		return
 	#if it is in group enemy, deal damage	
