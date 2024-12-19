@@ -25,9 +25,10 @@ func _process(delta: float) -> void:
 	position = position + speed * delta * direction
 
 func _on_body_entered(body: Node2D) -> void:
-	#if it collides with player, do nothing (return)
-	if body.name == "Player":
-		return
+	# i liked the idea of bullets being agnostic and damaging anything it hits
+	#if it collides with player, damage them
+	if body.is_in_group("player"): #changed this to group just in case it is ever multiplayer
+		body.hit(damage)
 	#if it collides with the tilemap, check if it is a layer
 	if body.name == "Tilemap": 
 		if tilemap.get_layer_name(0) == "Water": # <-name of your tilemap layer that has collisions
@@ -39,9 +40,7 @@ func _on_body_entered(body: Node2D) -> void:
 	#if it is in group enemy, deal damage	
 	if body.is_in_group("enemies"):
 		body.hit(damage)
-		#do damage
-		#subtract damage amont from enemy
-		#send a signal to the enmy to update their helth
+
 	#whatever happens, the bullet should explode and queue free
 	direction = Vector2.ZERO
 	animated_sprite.play("impact")

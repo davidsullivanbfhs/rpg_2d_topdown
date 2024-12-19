@@ -147,6 +147,9 @@ func sync_new_direction():
 
 
 func hit(damage):
+	#do damage
+#subtract damage amont from enemy
+#send a signal to the enmy to update their helth
 	health -=  damage
 	#play hit animation
 	if health > 0:
@@ -190,6 +193,15 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 	if animation_sprite.animation == "death_front":
 		queue_free()
 	is_attacking = false
+	#if it is not the death animation that finished, it must be the attacking animations
+	# Instantiate Bullet
+	if animation_sprite.animation.begins_with("attack_"):
+		var bullet = Global.bullet_scene.instantiate()
+		bullet.damage = bullet_damage
+		bullet.direction = new_direction.normalized()
+		# Place it 8 pixels away in front of the enemy to simulate it coming from the guns barrel
+		bullet.position = player.position + new_direction.normalized() * 8
+		get_tree().root.get_node("Main").add_child(bullet)
 
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
