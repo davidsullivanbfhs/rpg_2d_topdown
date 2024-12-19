@@ -1,7 +1,5 @@
 extends Node2D
 
-#BUG items only spawn once
-
 
 #get current spawn count
 #check tilemap  for spawnable locations
@@ -21,16 +19,18 @@ var rng = RandomNumberGenerator.new()
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# Spawn between 5 and 10 pickups at the beginning, dont need a timer
-	var spawn_pickup_amount = rng.randf_range(10, max_items)
+	var spawn_pickup_amount = rng.randi_range(10, max_items) #changed this to random integar
+	print("spawn_pickup_amount: ", spawn_pickup_amount)
 	spawn_pickups(spawn_pickup_amount)  
 	
 	
 func spawn_pickups(amount):
 	var attempts = 0
 	var max_attempts = 100
-	var spawned = false
+	var spawned = 0 #changed this to a int to check against amount
 	
-	while not spawned and attempts < max_attempts:
+	while spawned < amount and attempts < max_attempts:
+		attempts += 1 # increment this
 		### a second way to specify where to spawn enemies using a tilemap layer as a spawn layer
 		## create an array of used cells on a layer 
 		var groundtiles = tilemap.get_used_cells(Global.SPAWN_LAYER)
@@ -48,10 +48,9 @@ func spawn_pickups(amount):
 			pickup.item = Global.Pickups.values()[randi() % 3]
 			pickup.position = tilemap.map_to_local(random_position2) + Vector2(tilemap.tile_set.tile_size.x, tilemap.tile_set.tile_size.y)/2
 			spawned_pickups.add_child(pickup)
-			spawned = true
-			print("spawned an item")
-		else:
-			attempts += 1
+			spawned += 1 #add another spawn
+			#print("spawned an item")
+			
 
 	if attempts >= max_attempts:
 		print("Warning: Could not find a valid location")
