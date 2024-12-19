@@ -1,11 +1,11 @@
 extends CharacterBody2D
 
 ###################### TODO ##################################
-###### Add diagonal movement
-###### add shooting, get animation, play animation, reset is_attacking on animation finish
-######## add sprinting
-######### add recoil, get the direction and add a negative force
-#make stamina work better 
+###### DONE   Add diagonal movement
+###### DONE add shooting, get animation, play animation, reset is_attacking on animation finish
+######## DONE add sprinting
+######### DONE add recoil, get the direction and add a negative force
+#DONE make stamina work better 
 #online multiplayer
 # procedural world generation
 ###!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!###
@@ -208,7 +208,7 @@ func _on_animated_sprite_2d_frame_changed() -> void:
 # find type, add amount, emit signal
 func add_pickup(item):
 	if item == Pickups.AMMO:
-		ammo_amount = ammo_amount + 3
+		ammo_amount = ammo_amount + 6
 		ammo_amount_updated.emit(ammo_amount)
 	### add other two
 	if item == Pickups.HEALTH:

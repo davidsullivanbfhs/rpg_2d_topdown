@@ -4,6 +4,7 @@ extends CharacterBody2D
 #figure out if its close to the player
 #if its far , chase player
 #if its really close, attack the player
+# we need a distance to start attacking so they dont mob the player
 #if its really far, roam, change direction everynow and then
 
 ######## fixed - enenmy no random motion when not chasing
@@ -153,6 +154,15 @@ func hit(damage):
 		
 		#emit a signal 
 		death.emit()
+		
+		#when the enemy dies, there is a chance they will drop loot
+		#the loot will be randomly be one of the 3 types of pickups
+		if rng.randf() < 0.9:
+			var pickup = Global.pickup_scene.instantiate()
+			pickup.item = rng.randi() % 3 #we have three pickups in our enum
+			# attach it to our pickup spawner, but wait until all the script action is done
+			get_tree().root.get_node("Main/PickupSpawner/SpawnedPickups").call_deferred("add_child", pickup)
+			pickup.position = position
 		
 
 

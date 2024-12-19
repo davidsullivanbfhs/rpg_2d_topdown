@@ -49,6 +49,7 @@ func spawn_enemy():
 
 		if is_valid_spawn_location(Global.GRASS_LAYER, random_position2):
 			var enemy = Global.enemy_scene.instantiate()
+			enemy.death.connect(_on_enemy_death) # connect the enemy death signal to the spawner function
 			enemy.position = tilemap.map_to_local(random_position2) + Vector2(tilemap.tile_set.tile_size.x, tilemap.tile_set.tile_size.y)/2
 			spawned_enemies.add_child(enemy)
 			spawned = true
@@ -77,3 +78,9 @@ func _on_timer_timeout() -> void:
 		spawn_enemy()
 		enemy_count += 1
 		#print("enemy count: ", enemy_count)
+		
+
+# Remove enemy
+func _on_enemy_death():
+	# this will make sure there is always enemies
+	enemy_count = enemy_count - 1
