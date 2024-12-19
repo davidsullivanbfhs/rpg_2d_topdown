@@ -39,6 +39,7 @@ signal stamina_amount_updated
 @export var stamina_decrease = 1
 
 @onready var animation_sprite = $AnimatedSprite2D
+@onready var animation_player = $AnimationPlayer
 var new_direction: Vector2 = Vector2.ZERO
 var animation
 var is_attacking = false #controls if player can move
@@ -51,6 +52,7 @@ var bullet_reload_time = 1000
 var bullet_fired_time = 0.5 #when did they fire
 
 func _ready() -> void:
+	animation_sprite.modulate = Color(1, 1, 1, 1)
 	## need to update the ammo to 6 at the beginning
 	## perhaps this isnt showing because ui isnt ready to listen yet??
 	ammo_amount = 6
@@ -219,3 +221,22 @@ func add_pickup(item):
 		stamina_pickup_amount = stamina_pickup_amount + 1 # + 1 stamina drink
 		stamina_amount_updated.emit(stamina_pickup_amount)
 		print("stamina val:" + str(stamina_pickup_amount))
+		
+
+# ------------------- Damage & Death ------------------------------
+	#does damage to our player
+func hit(damage):
+	health -= damage    
+	health_updated.emit(health, max_health)
+	if health > 0:
+		#damage
+		animation_player.play("damaged")
+		health_updated.emit(health)
+	else:
+		#death
+		set_process(false)
+		#todo: game overYour final code should look like this.
+
+
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	animation_sprite.modulate = Color(1, 1, 1, 1)
