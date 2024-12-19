@@ -9,9 +9,12 @@ extends CharacterBody2D
 
 ######## fixed - enenmy no random motion when not chasing
 ######## !!!! change the collision layer mask so enemies dont pile up !!!!
+# added raycast so we can tell if the enemy is facing the player
+# if they are facing the player, and they are close enough, and they have bullets, they can shoot the player
+
 
 #enemy variables
-var health = 100
+var health = 60 #i gave them less at stzrt but overtime they get up to 100
 var max_health = 100
 var regen_health = 1
 
@@ -32,7 +35,8 @@ var animation
 @onready var timer_node = $Timer
 @onready var animation_player = $AnimationPlayer
 @onready var animation_sprite = $AnimatedSprite2D
-#BUG!!!! when enemy is spawned by spawner, we lose our connection with the player node !!!!
+@onready var ray_cast = $RayCast2D
+#since enemy is spawned by spawner, we need the absolute path to the player node !!!!
 @onready var player = get_tree().root.get_node("Main/Player")
 var is_attacking = false
 
@@ -48,6 +52,15 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	#calculate health
 	var updated_health = clamp(health + regen_health * delta, 0, max_health)
+	#get the collider of the raycast ray
+	var target = ray_cast.get_collider()
+	if target != null:
+		#if we are colliding with the player and the player isn't dead
+		if target.is_in_group("player"):
+			#shooting anim
+			is_attacking = true
+			var animation  = "attack_" + returned_direction(new_direction)
+			animation_sprite.play(animation)
 
 func _physics_process(delta: float) -> void:
 	var movement = speed * direction * delta
@@ -63,6 +76,9 @@ func _physics_process(delta: float) -> void:
 		
 	if !is_attacking:
 		enemy_animations(direction)
+	# Turn RayCast2D toward movement direction  
+	if direction != Vector2.ZERO:
+		ray_cast.target_position = direction.normalized() * 50
 
 
 func _on_timer_timeout() -> void:
