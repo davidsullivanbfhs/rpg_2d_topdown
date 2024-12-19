@@ -53,6 +53,8 @@ func _process(delta: float) -> void:
 	#calculate health
 	var updated_health = clamp(health + regen_health * delta, 0, max_health)
 	#get the collider of the raycast ray
+	#change the collision mask on the raycast node so it only is the player collision mask layer
+	#i usually have 1 = tiles/background, 2= player, 3= enemy, 4=pickups, etc
 	var target = ray_cast.get_collider()
 	if target != null:
 		#if we are colliding with the player and the player isn't dead
@@ -61,6 +63,7 @@ func _process(delta: float) -> void:
 			is_attacking = true
 			var animation  = "attack_" + returned_direction(new_direction)
 			animation_sprite.play(animation)
+			#now we need to spawn bullets
 
 func _physics_process(delta: float) -> void:
 	var movement = speed * direction * delta
