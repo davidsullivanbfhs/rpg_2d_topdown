@@ -27,6 +27,7 @@ func _process(delta: float) -> void:
 func _on_body_entered(body: Node2D) -> void:
 	# i liked the idea of bullets being agnostic and damaging anything it hits
 	#if it collides with player, damage them
+	# need to make sure bullet collision mask includes player
 	if body.is_in_group("player"): #changed this to group just in case it is ever multiplayer
 		body.hit(damage)
 	#if it collides with the tilemap, check if it is a layer

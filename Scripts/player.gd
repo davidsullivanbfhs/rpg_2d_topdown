@@ -33,6 +33,7 @@ signal stamina_updated
 signal ammo_amount_updated
 signal health_amount_updated
 signal stamina_amount_updated
+signal player_dead
 
 @export var speed = 50.0
 @export var recoil = -5.0
@@ -226,17 +227,21 @@ func add_pickup(item):
 # ------------------- Damage & Death ------------------------------
 	#does damage to our player
 func hit(damage):
+	is_attacking = true
 	health -= damage    
 	health_updated.emit(health, max_health)
 	if health > 0:
 		#damage
+		animation_sprite.play("hit_front")
 		animation_player.play("damaged")
-		health_updated.emit(health)
 	else:
 		#death
 		set_process(false)
-		#todo: game overYour final code should look like this.
+		#todo: game over
+		#emit a signal to main to 
+		player_dead.emit()
 
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	animation_sprite.modulate = Color(1, 1, 1, 1)
+	is_attacking = false

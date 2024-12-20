@@ -13,6 +13,7 @@ extends Node2D
 
 #if you mark a node as having a unique name, you can use % to refer to the node
 #this will work even if you change the parents
+@onready var animation_player = $AnimationPlayer
 @onready var health_bar_value = %HealthBar
 @onready var stamina_bar_value = %StaminaBar
 @onready var player = $Player
@@ -30,6 +31,7 @@ func _ready() -> void:
 	player.ammo_amount_updated.connect(_on_player_ammo_amount_updated)
 	player.stamina_amount_updated.connect(_on_player_stamina_amount_updated)
 	player.health_amount_updated.connect(_on_player_health_amount_updated)
+	player.player_dead.connect(_on_player_player_dead)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -57,3 +59,7 @@ func _on_player_health_amount_updated(health_potion_amount) -> void:
 	
 func _on_player_stamina_amount_updated(stamina_potion_amount) -> void:
 	%StaminaLabel.text = str(stamina_potion_amount)
+	
+	
+func _on_player_player_dead() -> void:
+	animation_player.play("game_over")

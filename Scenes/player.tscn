@@ -762,8 +762,7 @@ shape = SubResource("CapsuleShape2D_ccxq4")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_a07r0")
-animation = &"attack_back"
-frame = 5
+animation = &"hit_front"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
