@@ -59,6 +59,7 @@ func _ready() -> void:
 	ammo_amount = 6
 	await get_tree().create_timer(1).timeout
 	ammo_amount_updated.emit(ammo_amount)
+	get_node("CollisionShape2D").disabled = false    # disable
 
 func _process(delta: float) -> void:
 	#calculate health
@@ -237,9 +238,11 @@ func hit(damage):
 	else:
 		#death
 		set_process(false)
-		#todo: game over
+		get_node("CollisionShape2D").disabled = true    # disable
+		#turn off collisions
 		#emit a signal to main to 
 		player_dead.emit()
+		print("palyer is dead!!!")
 
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:

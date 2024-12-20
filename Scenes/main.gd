@@ -32,6 +32,7 @@ func _ready() -> void:
 	player.stamina_amount_updated.connect(_on_player_stamina_amount_updated)
 	player.health_amount_updated.connect(_on_player_health_amount_updated)
 	player.player_dead.connect(_on_player_player_dead)
+	%GameOverPanel.modulate = Color(0, 0, 0, 0)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -63,3 +64,4 @@ func _on_player_stamina_amount_updated(stamina_potion_amount) -> void:
 	
 func _on_player_player_dead() -> void:
 	animation_player.play("game_over")
+	print("palyer is dead!!!")

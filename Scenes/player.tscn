@@ -754,7 +754,7 @@ _data = {
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 2
-collision_mask = 5
+collision_mask = 13
 script = ExtResource("1_1b36m")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -763,6 +763,7 @@ shape = SubResource("CapsuleShape2D_ccxq4")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_a07r0")
 animation = &"hit_front"
+frame_progress = 1.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
