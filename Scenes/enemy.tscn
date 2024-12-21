@@ -1,4 +1,4 @@
-[gd_scene load_steps=86 format=3 uid="uid://cf4mwma8gdy7n"]
+[gd_scene load_steps=87 format=3 uid="uid://cf4mwma8gdy7n"]
 
 [ext_resource type="Script" path="res://Scripts/enemy.gd" id="1_38w7o"]
 [ext_resource type="Texture2D" uid="uid://b25ut75nqnjnc" path="res://Assets/Mobs/Cactus/Cactus Back Sheet.png" id="2_qkng1"]
@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://wqxvh25s02bl" path="res://Assets/Mobs/Cactus/Cactus Side Sheet.png" id="4_m4oud"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ccxq4"]
-radius = 6.0
+radius = 9.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_uhnv0"]
 atlas = ExtResource("2_qkng1")
@@ -645,6 +645,9 @@ _data = {
 "damaged": SubResource("Animation_83uw8")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_65a6g"]
+radius = 27.0185
+
 [node name="Enemy" type="CharacterBody2D" groups=["enemies"]]
 z_index = 1
 collision_layer = 4
@@ -668,6 +671,9 @@ libraries = {
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 collision_mask = 2
+
+[node name="CollisionShape2D_location" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_65a6g")
 
 [connection signal="death" from="." to="." method="_on_death"]
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

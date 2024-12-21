@@ -53,6 +53,8 @@ var xp_requirements = 100
 var new_direction: Vector2 = Vector2.ZERO
 var animation
 var is_attacking = false #controls if player can move
+## an attempt to not let the player get hit after they are dead
+var dead = false
 
 ###  bullet stuff  ###
 #moved to global script
@@ -63,12 +65,15 @@ var bullet_fired_time = 0.5 #when did they fire
 
 func _ready() -> void:
 	animation_sprite.modulate = Color(1, 1, 1, 1)
+	set_process(true)
+	set_physics_process(true)
 	## need to update the ammo to 6 at the beginning
 	## perhaps this isnt showing because ui isnt ready to listen yet??
 	ammo_amount = 6
 	await get_tree().create_timer(1).timeout
 	ammo_amount_updated.emit(ammo_amount)
 	get_node("CollisionShape2D").disabled = false    # disable
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
 func _process(delta: float) -> void:
 	#calculate health
@@ -118,7 +123,7 @@ func _physics_process(delta: float) -> void:
 		move_and_collide(movement)
 		player_animations(direction)
 		
-	#########attempting recoil
+	######### attempting recoil
 	else:
 		#direction will be zero, so need to find the facing direction and negate it, easy method is use last direction from new_direction
 		var movement = new_direction * delta * recoil
@@ -208,12 +213,13 @@ func _on_animated_sprite_2d_frame_changed() -> void:
 	#instantiate bullet
 	if animation_sprite.animation.begins_with("attack_")&& animation_sprite.frame == 2:
 		var bullet = Global.bullet_scene.instantiate()
+		bullet.group_to_hit = "enemies"
 		bullet.damage = bullet_damage
 		bullet.direction = new_direction.normalized()
 		#if they shoot at the beginning, they have no direction yet, so give a direction
 		if bullet.direction == Vector2.ZERO:
 			bullet.direction = Vector2(1, 0)
-		bullet.position = position + new_direction.normalized() * 4
+		bullet.position = position + (bullet.direction * 8)#need to figure out how to shoot a bullet without hitting themselves
 		if bullet.direction == Vector2.ZERO:
 			bullet.position = position
 		get_tree().root.get_node("Main").add_child(bullet)
@@ -237,6 +243,8 @@ func add_pickup(item):
 # ------------------- Damage & Death ------------------------------
 	#does damage to our player
 func hit(damage):
+	if dead:
+		return
 	is_attacking = true
 	health -= damage    
 	health_updated.emit(health, max_health)
@@ -247,14 +255,20 @@ func hit(damage):
 	else:
 		#death
 		set_process(false)
-		get_node("CollisionShape2D").disabled = true    # disable
-		#turn off collisions
-		#emit a signal to main to 
-		player_dead.emit()
-		print("palyer is dead!!!")
-
+		set_physics_process(false)
+		#turn off collision
+		#$CollisionShape2D.disabled = true   # disable
+		animation_sprite.play("hit_front")
+		animation_player.play("damaged")
+		dead = true
+		
+		
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	if health <= 0:
+		#emit a signal to main after animation plays 
+		player_dead.emit()
+		print("health: ", health)
 	animation_sprite.modulate = Color(1, 1, 1, 1)
 	is_attacking = false
 	

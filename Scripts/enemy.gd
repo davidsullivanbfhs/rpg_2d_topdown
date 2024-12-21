@@ -173,7 +173,7 @@ func hit(damage):
 		direction = Vector2.ZERO
 		#play the death animation
 		animation_sprite.play("death_front")
-		
+		player.update_xp(70)
 		#emit a signal 
 		death.emit()
 		
@@ -197,6 +197,7 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 	# Instantiate Bullet
 	if animation_sprite.animation.begins_with("attack_"):
 		var bullet = Global.bullet_scene.instantiate()
+		bullet.group_to_hit = "player"
 		bullet.damage = bullet_damage
 		bullet.direction = new_direction.normalized()
 		# Place it 8 pixels away in front of the enemy to simulate it coming from the guns barrel
