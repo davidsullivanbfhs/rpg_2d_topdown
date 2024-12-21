@@ -35,9 +35,18 @@ signal health_amount_updated
 signal stamina_amount_updated
 signal player_dead
 
+signal xp_updated
+signal level_updated
+signal xp_requirements_updated
+
 @export var speed = 50.0
 @export var recoil = -5.0
 @export var stamina_decrease = 1
+
+ # XP and levelling
+var xp = 0 
+var level = 1 
+var xp_requirements = 100
 
 @onready var animation_sprite = $AnimatedSprite2D
 @onready var animation_player = $AnimationPlayer
@@ -223,7 +232,7 @@ func add_pickup(item):
 		stamina_pickup_amount = stamina_pickup_amount + 1 # + 1 stamina drink
 		stamina_amount_updated.emit(stamina_pickup_amount)
 		print("stamina val:" + str(stamina_pickup_amount))
-		
+	update_xp(5)
 
 # ------------------- Damage & Death ------------------------------
 	#does damage to our player
@@ -248,3 +257,14 @@ func hit(damage):
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	animation_sprite.modulate = Color(1, 1, 1, 1)
 	is_attacking = false
+	
+	
+# ----------------- Level & XP ------------------------------
+#updates player xp
+func update_xp(value):
+	xp += value
+
+	#emit signals
+	xp_requirements_updated.emit(xp_requirements)   
+	xp_updated.emit(xp)
+	level_updated.emit(level)

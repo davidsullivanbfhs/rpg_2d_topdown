@@ -21,6 +21,11 @@ extends Node2D
 @onready var health_potion_amount
 @onready var stamina_potion_amount
 @onready var ammo_amount
+# xp refs
+@onready var xp_amount
+@onready var xp_amount_req 
+### LevelAmount
+@onready var level_amount
 
 
 # Called when the node enters the scene tree for the first time.
@@ -32,6 +37,9 @@ func _ready() -> void:
 	player.stamina_amount_updated.connect(_on_player_stamina_amount_updated)
 	player.health_amount_updated.connect(_on_player_health_amount_updated)
 	player.player_dead.connect(_on_player_player_dead)
+	player.xp_updated.connect(_on_player_update_xp_ui)
+	player.xp_requirements_updated.connect(_on_player_update_xp_requirements_ui)
+	player.level_updated.connect(_on_player_update_level_ui)
 	%GameOverPanel.modulate = Color(0, 0, 0, 0)
 
 
@@ -64,4 +72,20 @@ func _on_player_stamina_amount_updated(stamina_potion_amount) -> void:
 	
 func _on_player_player_dead() -> void:
 	animation_player.play("game_over")
-	print("palyer is dead!!!")
+
+
+#return xp
+func _on_player_update_xp_ui(xp):
+	#return something like 0
+	%XPvalue.text = str(xp)
+
+#return xp_requirements
+func _on_player_update_xp_requirements_ui(xp_amount_req):
+	#return something like / 100
+	pass
+	
+
+# Return level
+func _on_player_update_level_ui(level):
+	#return something like 0
+	%Lvlvalue.text = str(level)

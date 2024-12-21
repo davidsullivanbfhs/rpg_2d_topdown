@@ -2737,6 +2737,7 @@ text = "Level: "
 vertical_alignment = 1
 
 [node name="Lvlvalue" type="Label" parent="UI/UImargins/Panel3/VBoxContainer/LevelContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 text = "100"
