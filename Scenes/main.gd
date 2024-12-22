@@ -77,15 +77,17 @@ func _on_player_player_dead() -> void:
 #return xp
 func _on_player_update_xp_ui(xp):
 	#return something like 0
-	%XPvalue.text = str(xp)
+	%XPvalue.text = str(xp) + " / " + str(xp_amount_req)
 
 #return xp_requirements
-func _on_player_update_xp_requirements_ui(xp_amount_req):
+func _on_player_update_xp_requirements_ui(xp_amount_req_passed):
 	#return something like / 100
-	pass
+	xp_amount_req = xp_amount_req_passed
 	
 
 # Return level
 func _on_player_update_level_ui(level):
 	#return something like 0
 	%Lvlvalue.text = str(level)
+	#increase enemy spawn
+	$EnemySpawner.max_enemies += 1

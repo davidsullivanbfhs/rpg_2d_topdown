@@ -63,7 +63,7 @@ func _process(delta: float) -> void:
 			is_attacking = true
 			var animation  = "attack_" + returned_direction(new_direction)
 			animation_sprite.play(animation)
-			#now we need to spawn bullets
+			#after animation plays, spawn bullets
 
 func _physics_process(delta: float) -> void:
 	var movement = speed * direction * delta
@@ -87,10 +87,11 @@ func _physics_process(delta: float) -> void:
 func _on_timer_timeout() -> void:
 	var player_distance = player.position - position
 	#attack
-	if player_distance.length() <= 20:
+	if player_distance.length() <= 40:
 		new_direction = player_distance.normalized()
 		sync_new_direction()
 		direction = Vector2.ZERO
+		is_attacking = true
 	#chase
 	elif player_distance.length() <= 100 and timer == 0:
 		direction = player_distance.normalized()

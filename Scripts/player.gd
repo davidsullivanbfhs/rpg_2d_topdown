@@ -277,7 +277,27 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 #updates player xp
 func update_xp(value):
 	xp += value
-
+#check if player leveled up after reaching xp requirements
+	if xp >= xp_requirements:
+		#allows input
+		set_process_input(true)
+		#pause the game
+		get_tree().paused = true
+		#make popup visible
+		#level_popup.visible = true
+		#reset xp to 0
+		xp = 0
+		#increase the level and xp requirements
+		level += 1
+		xp_requirements *= 2
+		#update their max health and stamina
+		max_health += 10 
+		max_stamina += 10 
+		#give the player some ammo and pickups
+		ammo_amount += 10 
+		health_pickup_amount += 5
+		stamina_pickup_amount += 3
+		#increase amount of enemies (do this in the main level script)
 	#emit signals
 	xp_requirements_updated.emit(xp_requirements)   
 	xp_updated.emit(xp)
