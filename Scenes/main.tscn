@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://bht4l25l2o47k"]
+[gd_scene load_steps=31 format=3 uid="uid://bht4l25l2o47k"]
 
 [ext_resource type="Texture2D" uid="uid://ckx6cfsnq6t2b" path="res://Assets/Atlas.png" id="1_7r1gl"]
 [ext_resource type="Script" path="res://Scenes/main.gd" id="1_nde20"]
@@ -10,6 +10,7 @@
 [ext_resource type="FontFile" uid="uid://lxeddhw7kru1" path="res://Assets/Font/ARCADECLASSIC.TTF" id="8_yfvie"]
 [ext_resource type="Texture2D" uid="uid://bwou77y40enkh" path="res://Assets/Icons/potion_03a.png" id="9_kptm4"]
 [ext_resource type="Texture2D" uid="uid://bxihuu4njryk3" path="res://Assets/Icons/potion_01e.png" id="10_n5gkt"]
+[ext_resource type="FontFile" uid="uid://d3n5sd8aawen4" path="res://Assets/Font/LaTequila.ttf" id="10_yfsg0"]
 [ext_resource type="FontFile" uid="uid://digbq0mlkbh3p" path="res://Assets/Font/Schrödinger.ttf" id="10_yoaw3"]
 [ext_resource type="PackedScene" uid="uid://dlf0xpb5xdsi1" path="res://Scenes/pickup.tscn" id="11_esub0"]
 [ext_resource type="PackedScene" uid="uid://86an58l5gfe0" path="res://Scenes/enemy_spawner.tscn" id="11_lub0n"]
@@ -2536,6 +2537,31 @@ outline_color = Color(1, 0, 0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nwv7s"]
 bg_color = Color(0.6, 0.6, 0.6, 0.533333)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vyg2s"]
+bg_color = Color(0.81, 0.662985, 0.5427, 0.823529)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.749815, 0.422826, 0.118923, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_size = 5
+shadow_offset = Vector2(5, 5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hffvg"]
+bg_color = Color(0.263624, 0.361186, 0.235014, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
 [sub_resource type="Animation" id="Animation_aknec"]
 length = 0.001
 tracks/0/type = "value"
@@ -2762,8 +2788,117 @@ text = "100"
 horizontal_alignment = 2
 vertical_alignment = 1
 
+[node name="LevelUpPanel" type="Panel" parent="UI/UImargins"]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_vyg2s")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/UImargins/LevelUpPanel"]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -57.0
+offset_right = 57.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="LabelLevelUp" type="Label" parent="UI/UImargins/LevelUpPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("10_yfsg0")
+theme_override_font_sizes/font_size = 12
+text = "LEVEL UP!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Panel" type="Panel" parent="UI/UImargins/LevelUpPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_hffvg")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/UImargins/LevelUpPanel/VBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -37.0
+offset_right = 20.0
+offset_bottom = 37.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="UI/UImargins/LevelUpPanel/VBoxContainer/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("10_yfsg0")
+theme_override_font_sizes/font_size = 10
+text = "1
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="UI/UImargins/LevelUpPanel/VBoxContainer/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("10_yfsg0")
+theme_override_font_sizes/font_size = 10
+text = "1
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label3" type="Label" parent="UI/UImargins/LevelUpPanel/VBoxContainer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("10_yfsg0")
+theme_override_font_sizes/font_size = 10
+text = "1
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label4" type="Label" parent="UI/UImargins/LevelUpPanel/VBoxContainer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("10_yfsg0")
+theme_override_font_sizes/font_size = 10
+text = "1
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label5" type="Label" parent="UI/UImargins/LevelUpPanel/VBoxContainer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("10_yfsg0")
+theme_override_font_sizes/font_size = 10
+text = "1
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label6" type="Label" parent="UI/UImargins/LevelUpPanel/VBoxContainer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("10_yfsg0")
+theme_override_font_sizes/font_size = 10
+text = "1
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="UI/UImargins/LevelUpPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_fonts/font = ExtResource("10_yfsg0")
+theme_override_font_sizes/font_size = 12
+text = "YES!"
+
 [node name="GameOverPanel" type="Panel" parent="UI"]
 unique_name_in_owner = true
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

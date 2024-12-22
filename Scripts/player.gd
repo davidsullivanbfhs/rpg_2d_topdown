@@ -280,9 +280,9 @@ func update_xp(value):
 #check if player leveled up after reaching xp requirements
 	if xp >= xp_requirements:
 		#allows input
-		set_process_input(true)
+		#set_process_input(true)
 		#pause the game
-		get_tree().paused = true
+		#get_tree().paused = true
 		#make popup visible
 		#level_popup.visible = true
 		#reset xp to 0
