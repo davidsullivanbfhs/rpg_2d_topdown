@@ -20,7 +20,7 @@ var rng = RandomNumberGenerator.new()
 func _ready() -> void:
 	# Spawn between 5 and 10 pickups at the beginning, dont need a timer
 	var spawn_pickup_amount = rng.randi_range(10, max_items) #changed this to random integar
-	print("spawn_pickup_amount: ", spawn_pickup_amount)
+	#print("spawn_pickup_amount: ", spawn_pickup_amount)
 	spawn_pickups(spawn_pickup_amount)  
 	
 	

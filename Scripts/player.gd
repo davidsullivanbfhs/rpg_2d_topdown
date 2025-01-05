@@ -233,11 +233,11 @@ func add_pickup(item):
 	if item == Pickups.HEALTH:
 		health_pickup_amount = health_pickup_amount + 1 # + 1 health drink
 		health_amount_updated.emit(health_pickup_amount)
-		print("health val:" + str(health_pickup_amount))
+		#print("health val:" + str(health_pickup_amount))
 	if item == Pickups.STAMINA:
 		stamina_pickup_amount = stamina_pickup_amount + 1 # + 1 stamina drink
 		stamina_amount_updated.emit(stamina_pickup_amount)
-		print("stamina val:" + str(stamina_pickup_amount))
+		#print("stamina val:" + str(stamina_pickup_amount))
 	update_xp(5)
 
 # ------------------- Damage & Death ------------------------------
@@ -268,7 +268,7 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if health <= 0:
 		#emit a signal to main after animation plays 
 		player_dead.emit()
-		print("health: ", health)
+		#print("health: ", health)
 	animation_sprite.modulate = Color(1, 1, 1, 1)
 	is_attacking = false
 	

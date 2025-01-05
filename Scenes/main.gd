@@ -21,12 +21,12 @@ extends Node2D
 @onready var health_potion_amount
 @onready var stamina_potion_amount
 @onready var ammo_amount
-# xp refs
-@onready var xp_amount
-@onready var xp_amount_req 
-### LevelAmount
-@onready var level # the current level
-@onready var level_amount # amount needed to increase the level
+# xp refs ## THESE SHOULD BE STORED IN PLAYER I THINK
+#@onready var xp_amount
+#@onready var xp_amount_req 
+### LevelAmount ## THESE ARE STORED IN PLAYER
+#@onready var level # the current level
+#@onready var level_amount # amount needed to increase the level SEEMS LIKE THE SAME AS XP_AMOUNT_rEQ
 @onready var level_popup = %LevelPopupPanel
 
 
@@ -79,21 +79,22 @@ func _on_player_player_dead() -> void:
 #return xp
 func _on_player_update_xp_ui(xp):
 	#return something like 0
-	%XPvalue.text = str(xp) + " / " + str(xp_amount_req)
-	
+	%XPvalue.text = str(xp) + " / " + str(player.xp_requirements)
+	print(xp)
 #check if player leveled up after reaching xp requirements
-	if xp >= xp_amount_req:
+	if xp >= player.xp_requirements:
 		#allows input
 		set_process_input(true)
 		#pause the game
 		get_tree().paused = true
 		#make popup visible
 		level_popup.visible = true
+		print("make level visible: ", level_popup.visible)
 		#reset xp to 0
 		xp = 0
 		#increase the level and xp requirements
-		level += 1
-		xp_amount_req *= 2
+		player.level += 1
+		player.xp_requirements *= 2
 ####  if these values are kept in the player
 ####  maybe these values should be kept in a global?
 		#update their max health and stamina
@@ -112,10 +113,10 @@ func _on_player_update_xp_ui(xp):
 		player.health_pickups_updated.emit(player.health_pickup)
 		player.stamina_pickups_updated.emit(player.stamina_pickup)
 		player.xp_updated.emit(xp)
-		player.level_updated.emit(level)
+		player.level_updated.emit(player.level)
 
 		#reflect changes in Label
-		%LevelGained.text = "LVL: " + str(level)
+		%LevelGained.text = "LVL: " + str(player.level)
 		%HealthIncreaseGained.text = "+ MAX HP: " + str(player.max_health)
 		%StaminaIncreaseGained.text = "+ MAX SP: " + str(player.max_stamina)
 		%HealthPickupsGained.text = "+ HEALTH: 5" 
@@ -123,14 +124,14 @@ func _on_player_update_xp_ui(xp):
 		%AmmoPickupsGained.text = "+ AMMO: 10" 
 
 	#emit signals
-	player.xp_requirements_updated.emit(player.xp_requirements)   
-	player.xp_updated.emit(xp)
-	player.level_updated.emit(level)
+	#player.xp_requirements_updated.emit(player.xp_requirements)   
+	#player.xp_updated.emit(xp)
+	#player.level_updated.emit(level)
 
 #return xp_requirements
 func _on_player_update_xp_requirements_ui(xp_amount_req_passed):
 	#return something like / 100
-	xp_amount_req = xp_amount_req_passed
+	player.xp_requirements = xp_amount_req_passed
 	
 
 # Return level
