@@ -25,7 +25,9 @@ extends Node2D
 @onready var xp_amount
 @onready var xp_amount_req 
 ### LevelAmount
-@onready var level_amount
+@onready var level # the current level
+@onready var level_amount # amount needed to increase the level
+@onready var level_popup = %LevelPopupPanel
 
 
 # Called when the node enters the scene tree for the first time.
@@ -78,6 +80,52 @@ func _on_player_player_dead() -> void:
 func _on_player_update_xp_ui(xp):
 	#return something like 0
 	%XPvalue.text = str(xp) + " / " + str(xp_amount_req)
+	
+#check if player leveled up after reaching xp requirements
+	if xp >= xp_amount_req:
+		#allows input
+		set_process_input(true)
+		#pause the game
+		get_tree().paused = true
+		#make popup visible
+		level_popup.visible = true
+		#reset xp to 0
+		xp = 0
+		#increase the level and xp requirements
+		level += 1
+		xp_amount_req *= 2
+####  if these values are kept in the player
+####  maybe these values should be kept in a global?
+		#update their max health and stamina
+		player.max_health += 10 
+		player.max_stamina += 10 
+
+		#give the player some ammo and pickups
+		player.ammo_pickup += 10 
+		player.health_pickup += 5
+		player.stamina_pickup += 3
+
+		#update signals for Label values
+		player.health_updated.emit(player.health, player.max_health)
+		player.stamina_updated.emit(player.stamina, player.max_stamina)
+		player.ammo_pickups_updated.emit(player.ammo_pickup)
+		player.health_pickups_updated.emit(player.health_pickup)
+		player.stamina_pickups_updated.emit(player.stamina_pickup)
+		player.xp_updated.emit(xp)
+		player.level_updated.emit(level)
+
+		#reflect changes in Label
+		%LevelGained.text = "LVL: " + str(level)
+		%HealthIncreaseGained.text = "+ MAX HP: " + str(player.max_health)
+		%StaminaIncreaseGained.text = "+ MAX SP: " + str(player.max_stamina)
+		%HealthPickupsGained.text = "+ HEALTH: 5" 
+		%StaminaPickupsGained.text = "+ STAMINA: 3" 
+		%AmmoPickupsGained.text = "+ AMMO: 10" 
+
+	#emit signals
+	player.xp_requirements_updated.emit(player.xp_requirements)   
+	player.xp_updated.emit(xp)
+	player.level_updated.emit(level)
 
 #return xp_requirements
 func _on_player_update_xp_requirements_ui(xp_amount_req_passed):
