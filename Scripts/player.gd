@@ -258,7 +258,7 @@ func hit(damage):
 		set_physics_process(false)
 		#turn off collision
 		#$CollisionShape2D.disabled = true   # disable
-		animation_sprite.play("hit_front")
+		animation_sprite.play("death_front")
 		animation_player.play("damaged")
 		dead = true
 		
